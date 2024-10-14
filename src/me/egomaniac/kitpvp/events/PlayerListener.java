@@ -1,10 +1,5 @@
 package me.egomaniac.kitpvp.events;
 
-import com.lunarclient.bukkitapi.LunarClientAPI;
-import com.lunarclient.bukkitapi.nethandler.client.LCPacketModSettings;
-import com.lunarclient.bukkitapi.nethandler.client.obj.ModSettings;
-import com.lunarclient.bukkitapi.nethandler.client.obj.ServerRule;
-import com.lunarclient.bukkitapi.serverrule.LunarClientAPIServerRule;
 import me.egomaniac.kitpvp.Main;
 import me.egomaniac.kitpvp.commands.KitCommand;
 import me.egomaniac.kitpvp.managers.ProfileManager;
@@ -48,25 +43,11 @@ public class PlayerListener implements Listener {
             Main.getInstance().teleportManager.teleportSpawn(player);
         }
 
-        ModSettings.ModSetting disabled = new ModSettings.ModSetting(false, new HashMap<>());
-
-        if (player.hasPermission("kitpvp.admin")) {
-            LunarClientAPI.getInstance().giveAllStaffModules(player);
-        }
-
-        LunarClientAPI.getInstance().sendPacket(event.getPlayer(), new LCPacketModSettings(
-                new ModSettings()
-                        .addModSetting("Coordinates", disabled)
-                        .addModSetting("textHotKey", disabled)
-        ));
-
-        LunarClientAPIServerRule.setRule(ServerRule.COMPETITIVE_GAME, true);
-        LunarClientAPIServerRule.sendServerRule(player);
-
         player.sendMessage("");
         player.sendMessage(CC.translate("&fYou're now connected to our &3&lKitPvP &fserver"));
         player.sendMessage(CC.translate("&7&oThe map began on the 6th of July."));
         player.sendMessage("");
+
         Main.getInstance().profileManager.updateNameTag(player);
         player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 2.0f, 1.0f);
     }

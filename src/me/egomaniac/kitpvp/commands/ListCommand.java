@@ -1,6 +1,5 @@
 package me.egomaniac.kitpvp.commands;
 
-import com.lunarclient.bukkitapi.LunarClientAPI;
 import me.egomaniac.kitpvp.Main;
 import me.egomaniac.kitpvp.managers.ProfileManager;
 import me.egomaniac.kitpvp.utils.CC;
@@ -29,7 +28,5 @@ public class ListCommand {
         player.sendMessage(CC.translate("("+ Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers()) + "): " + Bukkit.getOnlinePlayers().stream()
                 .map(p -> Main.getInstance().profileManager.getPlayerRank(p.getUniqueId()).getColor() + p.getName())
                 .collect(Collectors.joining(", ")));
-
-        player.sendMessage(CC.translate("&bLC: " + LunarClientAPI.getInstance().getPlayersRunningLunarClient()));
     }
 }

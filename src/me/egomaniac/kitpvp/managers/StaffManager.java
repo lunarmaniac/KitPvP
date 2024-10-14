@@ -60,11 +60,22 @@ public class StaffManager {
 
     private void initializeModItems(Player player) {
         ItemStack[] items = new ItemStack[9];
-        items[4] = createRandomTeleportCompass();
+        items[2] = createRandomTeleportItem();
+        items[6] = createInspectInventoryItem();
         player.getInventory().setContents(items);
     }
 
-    private ItemStack createRandomTeleportCompass() {
+    private ItemStack createInspectInventoryItem() {
+        ItemStack book = new ItemStack(Material.BOOK);
+        ItemMeta meta = book.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName("§bInspect Inventory");
+            book.setItemMeta(meta);
+        }
+        return book;
+    }
+
+    private ItemStack createRandomTeleportItem() {
         ItemStack compass = new ItemStack(Material.COMPASS);
         ItemMeta meta = compass.getItemMeta();
         if (meta != null) {
