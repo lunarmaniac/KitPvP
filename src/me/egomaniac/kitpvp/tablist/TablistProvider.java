@@ -1,11 +1,10 @@
 package me.egomaniac.kitpvp.tablist;
 
-import com.viaversion.viaversion.ViaVersionPlugin;
+import me.egomaniac.kitpvp.Main;
+import me.egomaniac.kitpvp.tablist.impl.adapter.TabAdapter;
 import me.egomaniac.kitpvp.tablist.impl.entry.TabEntry;
 import me.egomaniac.kitpvp.tablist.impl.skin.Skin;
 import me.egomaniac.kitpvp.utils.CC;
-import me.egomaniac.kitpvp.Main;
-import me.egomaniac.kitpvp.tablist.impl.adapter.TabAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -72,18 +71,6 @@ public class TablistProvider implements TabAdapter {
         lines.add(new TabEntry(2, 0, CC.translate("     &b&lSENATIC"), 0, null));
         lines.add(new TabEntry(2, 3, CC.translate("&bYour rank"), 0, null));
         lines.add(new TabEntry(2, 4, Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getColor() + Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getDisplayName(), 0, null));
-/*
-        if (Bukkit.getPluginManager().getPlugin("ViaVersion") != null) {
-            if (ViaVersionPlugin.getInstance().getApi().getPlayerVersion(player) >= 47) {
-                lines.add(new TabEntry(3, 9, CC.translate("&7www.senaticpvp.net"), 0, Skin.DISCORD_SKIN));
-                lines.add(new TabEntry(3, 10, CC.translate("&7www.senaticpvp.net"), 0, Skin.TWITTER_SKIN));
-                lines.add(new TabEntry(3, 11, CC.translate("&7www.senaticpvp.net"), 0, Skin.FACEBOOK_SKIN));
-            }
-        } else { // doesnt work
-            lines.add(new TabEntry(2, 9, CC.translate("&7Version 1.8"), 0, null));
-            lines.add(new TabEntry(2, 10, CC.translate("&7is heavily advised"), 0, null));
-            lines.add(new TabEntry(2, 11, CC.translate("&7for server-visual performance"), 0, null));
-        }*/
         return lines;
     }
 }

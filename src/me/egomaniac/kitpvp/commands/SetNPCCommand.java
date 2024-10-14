@@ -61,7 +61,6 @@ public class SetNPCCommand {
 
         String type = args[0].toLowerCase();
         String playerName;
-        String skinName;
         String merchantTextureValue;
         String merchantSignature;
 
@@ -95,10 +94,13 @@ public class SetNPCCommand {
         }
 
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, playerName);
-        npc.spawn(player.getLocation());
 
         SkinTrait skinTrait = npc.getOrAddTrait(SkinTrait.class);
-        skinTrait.setSkinPersistent("test", merchantSignature, merchantTextureValue);
+        skinTrait.setTexture(merchantTextureValue, merchantSignature);
+        skinTrait.setSkinPersistent("notch", merchantSignature, merchantTextureValue);
+        
+        npc.spawn(player.getLocation());
+
         player.sendMessage(CC.translate("&aYou have spawned the NPC: &e" + npc.getName()));
     }
 

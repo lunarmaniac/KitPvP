@@ -3,25 +3,25 @@ package me.egomaniac.kitpvp.events;
 import me.egomaniac.kitpvp.Main;
 import me.egomaniac.kitpvp.utils.CC;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.stream.Collectors;
-
-import org.bukkit.inventory.ItemStack;
 
 public class StaffModeListener implements Listener {
 
@@ -32,6 +32,27 @@ public class StaffModeListener implements Listener {
             if (Main.getInstance().staffManager.isInStaffMode(player)) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        if (!(event.getRightClicked() instanceof Player)) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        Player target = (Player) event.getRightClicked();
+
+        if (!player.hasPermission("kitpvp.staff")) {
+            event.setCancelled(true);
+            return;
+        }
+
+        ItemStack item = player.getInventory().getItemInHand();
+        if (item.getType() == Material.BOOK && item.getItemMeta() != null
+                && "§bInspect Inventory".equals(item.getItemMeta().getDisplayName())) {
+            player.openInventory(target.getInventory());
         }
     }
 
