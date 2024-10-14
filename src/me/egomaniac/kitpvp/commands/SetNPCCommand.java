@@ -51,7 +51,7 @@ public class SetNPCCommand {
             return;
         }
 
-        String types = "merchant, tags, howtoplay";
+        String types = "merchant, tags, howtoplay, perks";
 
         String[] args = cmd.getArgs();
         if (args.length == 0) {

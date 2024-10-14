@@ -163,15 +163,16 @@ public class ProfileCommand {
         final String[] SHOW_MESSAGE = new String[] {
                 CC.translate("&eThis command isn't finished."),
                 CC.translate("&7&m-------------------------------------------"),
-                CC.translate("&6&l" + target.getDisplayName() + "'s profile"),
+                CC.translate("&b&l" + target.getDisplayName() + "'s profile"),
                 CC.translate("&7&m-------------------------------------------"),
-                CC.translate("&6" + profile.getProfile(target.getUniqueId()).getRank().name() + " &7\u2503 &fplayers rank"),
-                CC.translate("&6" + profile.getProfile(target.getUniqueId()).getCredits() + " &7\u2503 &fplayers credits"),
-                CC.translate("&6" + profile.getProfile(target.getUniqueId()).getTag() + " &7\u2503 &fplayers tag"),
+                CC.translate("&7Rank: " + profile.getProfile(target.getUniqueId()).getRank().getColor() + profile.getProfile(target.getUniqueId()).getRank().getDisplayName()),
+                CC.translate("&7Credits: &b" + profile.getProfile(target.getUniqueId()).getCredits()),
+                CC.translate("&7Tag: &b" + profile.getProfile(target.getUniqueId()).getTag()),
+                CC.translate("&7Private Messages: " + (profile.getProfile(target.getUniqueId()).isTogglepm() ? "&aEnabled" : "&cDisabled")),
                 CC.translate("&7&m-------------------------------------------")
         };
 
-        sender.sendMessage(CC.translate("This command is currently under development."));
+        sender.sendMessage(SHOW_MESSAGE);
     }
 
 }

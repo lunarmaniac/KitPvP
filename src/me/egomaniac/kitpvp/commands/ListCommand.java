@@ -30,6 +30,12 @@ public class ListCommand {
                 .map(p -> Main.getInstance().profileManager.getPlayerRank(p.getUniqueId()).getColor() + p.getName())
                 .collect(Collectors.joining(", ")));
 
-        player.sendMessage(CC.translate("&bLC: " + LunarClientAPI.getInstance().getPlayersRunningLunarClient()));
+        StringBuilder lunarClientPlayers = new StringBuilder();
+        Bukkit.getOnlinePlayers().forEach(p -> {
+            if (LunarClientAPI.getInstance().isRunningLunarClient(p)) {
+                lunarClientPlayers.append(p.getName()).append(", ");
+            }
+        });
+        player.sendMessage(CC.translate("&bLC: " + lunarClientPlayers.toString()));
     }
 }

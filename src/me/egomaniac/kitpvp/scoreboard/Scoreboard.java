@@ -3,6 +3,7 @@ package me.egomaniac.kitpvp.scoreboard;
 import me.egomaniac.kitpvp.utils.CC;
 import me.egomaniac.kitpvp.Main;
 import me.egomaniac.kitpvp.scoreboard.api.AssembleAdapter;
+import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
@@ -43,6 +44,14 @@ public class Scoreboard implements AssembleAdapter {
             toReturn.add(CC.translate("&b⤷ Highest Killstreak: &f" + highestKillstreak));
             toReturn.add(CC.translate("&b⤷ Deaths: &f" + player.getStatistic(Statistic.DEATHS)));
             toReturn.add(CC.translate("&c⤷ Combat-tagged: &e" + Main.getInstance().combatManager.getCombatTime(player)) + "s");
+            toReturn.add(CC.translate(""));
+            toReturn.add(CC.translate("    &7www.senaticpvp.net"));
+        } else if (Main.getInstance().staffManager.isInStaffMode(player)) {
+            toReturn.add(CC.translate(""));
+            toReturn.add(CC.translate("&b⤷ Staff Mode"));
+            toReturn.add(CC.translate("&b⤷ Players: &f" + Bukkit.getOnlinePlayers().size()));
+            toReturn.add(CC.translate("&b⤷ TPS: &f" + Math.round(Bukkit.getServer().spigot().getTPS()[0] * 100.0) / 100.0));
+            toReturn.add(CC.translate("&b⤷ RAM: &f" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576 + "MB"));
             toReturn.add(CC.translate(""));
             toReturn.add(CC.translate("    &7www.senaticpvp.net"));
         } else {
