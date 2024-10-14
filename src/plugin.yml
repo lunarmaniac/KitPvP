@@ -1,0 +1,11 @@
+name: KitPvP
+version: 2.6-PRIVATE
+authors:
+  - egomaniac
+  - chatgpt
+main: me.egomaniac.kitpvp.Main
+description: Classical themed core, made by someone who can't code.
+
+softdepend:
+  - LunarClient-API
+  - ViaVersion
