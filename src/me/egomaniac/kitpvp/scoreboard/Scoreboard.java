@@ -49,8 +49,8 @@ public class Scoreboard implements AssembleAdapter {
         } else if (Main.getInstance().staffManager.isInStaffMode(player)) {
             toReturn.add(CC.translate(""));
             toReturn.add(CC.translate("&b⤷ Staff Mode"));
+            toReturn.add(CC.translate("&b⤷ Vanish: &f" + (Main.getInstance().staffManager.isVanished(player) ? "&aTrue" : "&cFalse")));
             toReturn.add(CC.translate("&b⤷ Players: &f" + Bukkit.getOnlinePlayers().size()));
-            toReturn.add(CC.translate("&b⤷ TPS: &f" + Math.round(Bukkit.getServer().spigot().getTPS()[0] * 100.0) / 100.0));
             toReturn.add(CC.translate("&b⤷ RAM: &f" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576 + "MB"));
             toReturn.add(CC.translate(""));
             toReturn.add(CC.translate("    &7www.senaticpvp.net"));

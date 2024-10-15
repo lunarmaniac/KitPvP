@@ -22,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.awt.*;
+import java.util.UUID;
 
 public class Main extends JavaPlugin {
 
@@ -122,6 +123,14 @@ public class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(CC.translate("&7&m-------------------------------------------"));
         Bukkit.getConsoleSender().sendMessage(CC.translate("          &6KitPvP &fhas been &cdisabled"));
         Bukkit.getConsoleSender().sendMessage(CC.translate("&7&m-------------------------------------------"));
+
+        for (UUID playerUUID : Main.getInstance().staffManager.getStaffModePlayers()) {
+            Player player = Bukkit.getPlayer(playerUUID);
+            if (player != null) {
+                Main.getInstance().staffManager.disableStaffMode(player);
+            }
+        }
+
         settings.saveConfig();
         DiscordWebhook.send("Server", "The server is now offline.", Color.RED, DiscordWebhook.Type.SERVER);
     }

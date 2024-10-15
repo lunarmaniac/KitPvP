@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import com.viaversion.viaversion.ViaVersionPlugin;
+
 import lombok.Getter;
 import me.egomaniac.kitpvp.tablist.impl.Tablist;
 import me.egomaniac.kitpvp.tablist.impl.entry.TabEntry;
@@ -48,7 +48,7 @@ public class TabLayout {
 
 	public void setHeaderAndFooter() {
 		boolean continueAt = false;
-
+/*
 		if (Bukkit.getPluginManager().getPlugin("ViaVersion") != null) {
 			if (ViaVersionPlugin.getInstance().getApi().getPlayerVersion(player) >= 47) {
 				continueAt = true;
@@ -68,7 +68,7 @@ public class TabLayout {
 			Reflection.getField(packet.getClass(), "b", Object.class).set(packet, footerComponent);
 
 			this.entityPlayer.playerConnection.sendPacket(packet);
-		}
+		}*/
 	}
 
 	public void update(int column, int row, String text, int ping, Skin skin) {
@@ -140,6 +140,7 @@ public class TabLayout {
 
 	private void fetchSkin(int index, GameProfile gameProfile, Skin skin) {
 		boolean continueAt = false;
+/*
 		if (Bukkit.getPluginManager().getPlugin("ProtocolSupport") != null) {
 			if (Bukkit.getPluginManager().getPlugin("ViaVersion") != null) {
 				if (ViaVersionPlugin.getInstance().getApi().getPlayerVersion(player) >= 47) {
@@ -147,6 +148,7 @@ public class TabLayout {
 				}
 			}
 		}
+*/
 
 		if (!continueAt) {
 			return;

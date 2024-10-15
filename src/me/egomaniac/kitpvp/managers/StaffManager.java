@@ -18,6 +18,7 @@ import java.util.UUID;
 
 public class StaffManager {
     private final HashSet<UUID> staffModePlayers = new HashSet<>();
+    private final HashSet<UUID> vanishedPlayers = new HashSet<>();
 
     public StaffManager() {}
 
@@ -32,13 +33,13 @@ public class StaffManager {
         player.getInventory().setArmorContents(null);
         initializeModItems(player);
 
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (!onlinePlayer.hasPermission("kitpvp.staff")) {
-                onlinePlayer.hidePlayer(player);
-            } else {
-                onlinePlayer.showPlayer(player);
-            }
+        //TODO: for some super weird reason this method just isnt working here. so using isvanished instead. gay i know.
+        //updatePlayerVisibility(player, false);
+
+        if (!isVanished(player)) {
+            toggleVanish(player);
         }
+
     }
 
     public void disableStaffMode(Player player) {
@@ -49,13 +50,45 @@ public class StaffManager {
 
         player.setGameMode(GameMode.SURVIVAL);
 
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            onlinePlayer.showPlayer(player);
+        if (isVanished(player)) {
+            toggleVanish(player);
         }
+
+    }
+
+    public void toggleVanish(Player player) {
+        UUID playerUUID = player.getUniqueId();
+        if (vanishedPlayers.contains(playerUUID)) {
+            vanishedPlayers.remove(playerUUID);
+            updatePlayerVisibility(player, true);
+        } else {
+            vanishedPlayers.add(playerUUID);
+            updatePlayerVisibility(player, false);
+        }
+    }
+
+    private void updatePlayerVisibility(Player player, boolean visible) {
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            boolean canSeeVanished = onlinePlayer.hasPermission("kitpvp.staff");
+
+            if (visible || !vanishedPlayers.contains(player.getUniqueId()) || canSeeVanished) {
+                onlinePlayer.showPlayer(player);
+            } else {
+                onlinePlayer.hidePlayer(player);
+            }
+        }
+    }
+
+    public boolean isVanished(Player player) {
+        return vanishedPlayers.contains(player.getUniqueId());
     }
 
     public boolean isInStaffMode(Player player) {
         return staffModePlayers.contains(player.getUniqueId());
+    }
+
+    public HashSet<UUID> getStaffModePlayers() {
+        return staffModePlayers;
     }
 
     private void initializeModItems(Player player) {
