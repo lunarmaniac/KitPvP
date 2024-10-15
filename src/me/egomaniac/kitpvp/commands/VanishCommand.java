@@ -1,8 +1,6 @@
 package me.egomaniac.kitpvp.commands;
 
 import me.egomaniac.kitpvp.Main;
-import me.egomaniac.kitpvp.managers.StaffManager;
-import me.egomaniac.kitpvp.utils.CC;
 import me.egomaniac.kitpvp.utils.commandFramework.Command;
 import me.egomaniac.kitpvp.utils.commandFramework.CommandArgs;
 import org.bukkit.entity.Player;

@@ -4,16 +4,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
 import lombok.Getter;
 import me.egomaniac.kitpvp.tablist.impl.Tablist;
 import me.egomaniac.kitpvp.tablist.impl.entry.TabEntry;
 import me.egomaniac.kitpvp.tablist.impl.skin.Skin;
 import me.egomaniac.kitpvp.tablist.impl.util.Reflection;
 import net.minecraft.server.v1_8_R3.*;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
