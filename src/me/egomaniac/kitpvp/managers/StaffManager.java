@@ -34,10 +34,10 @@ public class StaffManager {
 
         //TODO: for some super weird reason this method just isnt working here. so using isvanished instead. gay i know.
         //updatePlayerVisibility(player, false);
-        Main.getInstance().profileManager.updateNameTag(player);
 
         if (!isVanished(player)) {
             toggleVanish(player);
+
         }
 
     }
@@ -66,6 +66,7 @@ public class StaffManager {
             vanishedPlayers.add(playerUUID);
             updatePlayerVisibility(player, false);
         }
+        Main.getInstance().profileManager.updateNameTag(player);
     }
 
     private void updatePlayerVisibility(Player player, boolean visible) {
