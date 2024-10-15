@@ -306,12 +306,13 @@ public class SumoManager {
     }
 
     private void awardCredits(Player player) {
+        int winAmount = 2000;
         player.sendMessage("");
-        player.sendMessage(CC.translate("&eYou have recieved &b500 &eCredits for winning the event!"));
+        player.sendMessage(CC.translate("&eYou have recieved &b" + winAmount +" &eCredits for winning the event!"));
         player.sendMessage("");
         UUID playerId = player.getUniqueId();
         ProfileManager.Profile profile = Main.getInstance().profileManager.getProfile(playerId);
-        int credits = profile.getCredits() + 1000;
+        int credits = profile.getCredits() + winAmount;
         profile.setCredits(credits);
         Main.getInstance().profileManager.saveProfile(profile);
     }
