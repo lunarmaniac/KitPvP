@@ -64,7 +64,7 @@ public class ServerListener implements Listener {
         if (event != null && !event.isCancelled() && event instanceof EntityDamageByEntityEvent && (damager = ((EntityDamageByEntityEvent) event).getDamager()) instanceof Arrow && (a = (Arrow) damager).getShooter().equals(p)) {
             final double speed = Math.sqrt(velo.getX() * velo.getX() + velo.getZ() * velo.getZ());
             final Vector dir = a.getLocation().getDirection().normalize();
-            final Vector newvelo = new Vector(dir.getX() * speed * -2.5, velo.getY(), dir.getZ() * speed * 2.5); // Doubling the X and Z velocity
+            final Vector newvelo = new Vector(dir.getX() * speed * -2.0, velo.getY(), dir.getZ() * speed * 2.0);
             e.setVelocity(newvelo);
         }
     }
