@@ -10,6 +10,7 @@ import me.egomaniac.kitpvp.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -267,6 +268,7 @@ public class PvPListener implements Listener {
     public void onArrowHit(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Arrow && event.getEntity() instanceof Player) {
             Arrow arrow = (Arrow) event.getDamager();
+
             if (arrow.getShooter() instanceof Player) {
                 Player shooter = (Player) arrow.getShooter();
                 Player damagedPlayer = (Player) event.getEntity();
@@ -275,22 +277,55 @@ public class PvPListener implements Listener {
                     return;
                 }
 
-                double trueDistance = shooter.getLocation().distance(damagedPlayer.getLocation());
-                double limitedDistance = trueDistance;
-
-                if (limitedDistance > 25) {
-                    limitedDistance = 25;
+                if (Main.getInstance().spawnManager.getCuboid().isIn(damagedPlayer)) {
+                    return;
                 }
+
+                double trueDistance = shooter.getLocation().distance(damagedPlayer.getLocation());
+                double limitedDistance = Math.min(trueDistance, 25);
 
                 double additionalDamage = Math.floor(limitedDistance / 5) * 1.5;
                 double originalDamage = event.getDamage();
-                double newDamage = originalDamage + additionalDamage;
+
+                double newDamage = Math.max(0, originalDamage + additionalDamage);
+
+                double armorPoints = 0;
+                double protectionLevel = 0;
+                double projectileProtectionLevel = 0;
+
+                for (ItemStack armor : damagedPlayer.getInventory().getArmorContents()) {
+                    if (armor != null) {
+                        if (armor.getType() == Material.DIAMOND_HELMET || armor.getType() == Material.DIAMOND_CHESTPLATE ||
+                                armor.getType() == Material.DIAMOND_LEGGINGS || armor.getType() == Material.DIAMOND_BOOTS) {
+                            armorPoints += 3;
+                        } else if (armor.getType() == Material.IRON_HELMET || armor.getType() == Material.IRON_CHESTPLATE ||
+                                armor.getType() == Material.IRON_LEGGINGS || armor.getType() == Material.IRON_BOOTS) {
+                            armorPoints += 2;
+                        } else if (armor.getType() == Material.CHAINMAIL_HELMET || armor.getType() == Material.CHAINMAIL_CHESTPLATE ||
+                                armor.getType() == Material.CHAINMAIL_LEGGINGS || armor.getType() == Material.CHAINMAIL_BOOTS) {
+                            armorPoints += 1;
+                        } else if (armor.getType() == Material.GOLD_HELMET || armor.getType() == Material.GOLD_CHESTPLATE ||
+                                armor.getType() == Material.GOLD_LEGGINGS || armor.getType() == Material.GOLD_BOOTS) {
+                            armorPoints += 2;
+                        } else if (armor.getType() == Material.LEATHER_HELMET || armor.getType() == Material.LEATHER_CHESTPLATE ||
+                                armor.getType() == Material.LEATHER_LEGGINGS || armor.getType() == Material.LEATHER_BOOTS) {
+                            armorPoints += 1;
+                        }
+
+                        protectionLevel += armor.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL);
+                        projectileProtectionLevel += armor.getEnchantmentLevel(Enchantment.PROTECTION_PROJECTILE);
+                    }
+                }
+
+                double damageReduction = (armorPoints / 2) + (protectionLevel * 0.5) + (projectileProtectionLevel * 0.5);
+                newDamage = Math.max(0, newDamage - damageReduction);
 
                 event.setDamage(newDamage);
 
                 shooter.sendMessage("");
                 shooter.sendMessage(CC.RED + "You hit " + damagedPlayer.getName() + " from " + Math.round(trueDistance) + " blocks away.");
-                shooter.sendMessage(CC.RED + "You have dealt " + newDamage + " hearts of damage.");
+                double actualDamageDealt = Math.min(newDamage, event.getDamage());
+                shooter.sendMessage(CC.RED + "You have dealt " + actualDamageDealt + " hearts of damage.");
                 shooter.sendMessage("");
             }
         }
