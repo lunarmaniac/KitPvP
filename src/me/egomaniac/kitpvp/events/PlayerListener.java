@@ -44,8 +44,9 @@ public class PlayerListener implements Listener {
         }
 
         player.sendMessage("");
-        player.sendMessage(CC.translate("&fYou're now connected to our &3&lKitPvP &fserver"));
-        player.sendMessage(CC.translate("&7&oThe map began on the 6th of July."));
+        player.sendMessage(CC.translate("&fYou're now connected to our &b&lKitPvP &fserver"));
+        //player.sendMessage(CC.translate("&7&oRelive a map from the past, 2018."));
+        player.sendMessage(CC.translate("&7&oSeason began on the 15th of October, 2024."));
         player.sendMessage("");
 
         Main.getInstance().profileManager.updateNameTag(player);
@@ -106,9 +107,6 @@ public class PlayerListener implements Listener {
         return true;
     }
 
-
-
-
         @EventHandler
         public void onFallDamage(EntityDamageEvent e) {
             if (!(e.getEntity() instanceof Player)) {
@@ -118,7 +116,6 @@ public class PlayerListener implements Listener {
             Player player = (Player) e.getEntity();
             if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
                 if (isFallDamageImmune(player)) {
-                    // The player is immune to fall damage, cancel the event
                     e.setCancelled(true);
                 }
             }
