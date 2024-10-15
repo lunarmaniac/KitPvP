@@ -309,7 +309,8 @@ public class ProfileManager {
         LEGEND("Legend", "&7[&c&lLEGEND&7] &c", ChatColor.RED, 4, "kitpvp.kit.legend"),
         MOD("Mod", "&7[&3Mod&7] &3", ChatColor.DARK_AQUA, 5, "kitpvp.staff"),
         ADMIN("Admin", "&7[&4Admin&7] &4", ChatColor.DARK_RED, 6, "kitpvp.admin"),
-        OWNER("Owner", "&7[&4Owner&7] &4", ChatColor.DARK_RED, 7, "*");
+        DEVELOPER("Developer", "&7[&bDeveloper&7] &b", ChatColor.AQUA, 7, "*"),
+        OWNER("Owner", "&7[&4Owner&7] &4", ChatColor.DARK_RED, 8, "*");
 
         private final String displayName;
         private final String prefix;
