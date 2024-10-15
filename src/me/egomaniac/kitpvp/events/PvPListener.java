@@ -187,6 +187,7 @@ public class PvPListener implements Listener {
 
             Main.getInstance().profileManager.addPlayerCredits(killer.getUniqueId(), 100);
             player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 2.0f, 1.0f);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate give " + killer.getDisplayName() + " kill 1");
             killer.sendMessage(CC.translate("&aYou have been rewarded &e100 credits &afor killing &e" + player.getDisplayName()));
             player.sendMessage(CC.translate("&cYou have been killed by &e" + killer.getDisplayName()));
 
@@ -216,7 +217,8 @@ public class PvPListener implements Listener {
             attacker.addPotionEffect(speedEffect);
 
             Bukkit.broadcastMessage(CC.translate("&e" + attacker.getDisplayName() + " &ahas reached a killstreak of " + killstreak + "!"));
-            attacker.sendMessage(CC.translate("&aYou've recieved the &eSpeed Boost &aperk for reaching a killstreak of " + killstreak + "!"));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate give " + attacker.getDisplayName() + " epic 1");
+            attacker.sendMessage(CC.translate("&aYou've recieved a &eSpeed Boost &afor reaching a killstreak of " + killstreak + "!"));
 
         } else if (killstreak == 10) {
 
@@ -224,7 +226,8 @@ public class PvPListener implements Listener {
             attacker.getInventory().addItem(godApple);
 
             Bukkit.broadcastMessage(CC.translate("&e" + attacker.getDisplayName() + " &ahas reached a killstreak of " + killstreak + "!"));
-            attacker.sendMessage(CC.translate("&aYou've recieved the &eGod Apple &aperk for reaching a killstreak of " + killstreak + "!"));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate give " + attacker.getDisplayName() + " epic 5");
+            attacker.sendMessage(CC.translate("&aYou've recieved a &eGod Apple &afor reaching a killstreak of " + killstreak + "!"));
 
 
         } else if (killstreak == 15) {
@@ -232,7 +235,8 @@ public class PvPListener implements Listener {
             Main.getInstance().profileManager.addPlayerCredits(attacker.getUniqueId(), 1000);
 
             Bukkit.broadcastMessage(CC.translate("&e" + attacker.getDisplayName() + " &ahas reached a killstreak of " + killstreak + "!"));
-            attacker.sendMessage(CC.translate("&aYou've recieved the &eExtra Credits &aperk for reaching a killstreak of " + killstreak + "!"));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate give " + attacker.getDisplayName() + " mega 1");
+            attacker.sendMessage(CC.translate("&aYou've recieved the &e1000 Credits &afor reaching a killstreak of " + killstreak + "!"));
 
         }
     }
