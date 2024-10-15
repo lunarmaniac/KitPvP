@@ -5,6 +5,7 @@ import me.egomaniac.kitpvp.perks.Perk;
 import me.egomaniac.kitpvp.ui.api.InventoryProvider;
 import me.egomaniac.kitpvp.ui.api.ItemBuilder;
 import me.egomaniac.kitpvp.utils.CC;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -18,6 +19,21 @@ public class PerksUI extends InventoryProvider {
 
 
     private static final Map<Player, PerksUI> playerPerksUIMap = new HashMap<>();
+    private static final Map<Player, Tier1UI> playerTier1UIMap = new HashMap<>();
+    private static final Map<Player, Tier2UI> playerTier2UIMap = new HashMap<>();
+    private static final Map<Player, Tier3UI> playerTier3UIMap = new HashMap<>();
+
+    private Tier1UI getTier1UI(Player player) {
+        return playerTier1UIMap.computeIfAbsent(player, p -> new Tier1UI());
+    }
+
+    private Tier2UI getTier2UI(Player player) {
+        return playerTier2UIMap.computeIfAbsent(player, p -> new Tier2UI());
+    }
+
+    private Tier3UI getTier3UI(Player player) {
+        return playerTier3UIMap.computeIfAbsent(player, p -> new Tier3UI());
+    }
 
     public static PerksUI getPlayerPerksUI(Player player) {
         return playerPerksUIMap.computeIfAbsent(player, p -> new PerksUI());
@@ -25,6 +41,7 @@ public class PerksUI extends InventoryProvider {
 
     public void onClose(Player player) {
         playerPerksUIMap.remove(player);
+        Bukkit.broadcastMessage(playerPerksUIMap.values().toString());
     }
     public PerksUI() {
         super(CC.translate("&b&lSENATIC &8┃ &fPerks"), 27);
@@ -51,26 +68,22 @@ public class PerksUI extends InventoryProvider {
     @Override
     public void onClick(ItemStack item, int slot, InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
         switch (slot) {
             case 11:
-                final Tier1UI tier1UI = new Tier1UI();
-
+                Tier1UI tier1UI = getTier1UI(player);
                 tier1UI.open(player);
-                event.setCancelled(true);
                 break;
             case 13:
-                final Tier2UI tier2UI = new Tier2UI();
-
+                Tier2UI tier2UI = getTier2UI(player);
                 tier2UI.open(player);
-                event.setCancelled(true);
                 break;
             case 15:
-                final Tier3UI tier3UI = new Tier3UI();
+                Tier3UI tier3UI = getTier3UI(player);
                 tier3UI.open(player);
-                event.setCancelled(true);
                 break;
             default:
-                event.setCancelled(true);
                 break;
         }
     }

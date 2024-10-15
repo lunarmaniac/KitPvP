@@ -15,12 +15,6 @@ public class PerksCommand {
     @Command(name = "perks", permission = "kitpvp.player", inGameOnly = true)
     public boolean execute(CommandArgs cmd) {
         final Player player = cmd.getPlayer();
-        player.sendMessage(CC.translate("&cThis command is currently disabled."));
-        return true;
-
-        // TODO: disabling this until i fix the glitchy ui, duplicates the clicks or something.
-
-        /*
         if( !player.hasPermission("kitpvp.admin")){
             if (!Main.getInstance().spawnManager.getCuboid().isIn(player)) {
                 player.sendMessage(CC.translate("&cThis command cannot be used outside of spawn"));
@@ -31,6 +25,6 @@ public class PerksCommand {
 
         PerksUI perksUI = PerksUI.getPlayerPerksUI(player);
         perksUI.open(player);
-        return false;*/
+        return false;
     }
 }
