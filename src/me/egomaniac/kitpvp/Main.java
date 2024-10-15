@@ -86,7 +86,7 @@ public class Main extends JavaPlugin {
     }
 
     public void loadEngine() {
-        new BroadcasterTask().runTaskTimerAsynchronously(this, 0L, 6000L);
+        new BroadcasterTask().runTaskTimerAsynchronously(this, 0L, 7000L);
         new Tablist(new TablistProvider(), this, 20L);
 
         Main.inventoryHandler = new InventoryHandler().init();
