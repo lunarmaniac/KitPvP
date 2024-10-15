@@ -34,6 +34,7 @@ public class StaffManager {
 
         //TODO: for some super weird reason this method just isnt working here. so using isvanished instead. gay i know.
         //updatePlayerVisibility(player, false);
+        Main.getInstance().profileManager.updateNameTag(player);
 
         if (!isVanished(player)) {
             toggleVanish(player);
@@ -48,6 +49,7 @@ public class StaffManager {
         restoreInventoryFromFile(player);
 
         player.setGameMode(GameMode.SURVIVAL);
+        Main.getInstance().profileManager.updateNameTag(player);
 
         if (isVanished(player)) {
             toggleVanish(player);

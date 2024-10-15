@@ -55,7 +55,6 @@ public class ProfileManager {
         if (NametagEdit.getInstance().isEnabled()) {
 
             boolean hasIncognitoPerk = Main.getInstance().playerPerksManager.hasPerk(player, new Incognito());
-            boolean isInStaffMode = Main.getInstance().staffManager.isInStaffMode(player);
 
             if (hasIncognitoPerk) {
                 // If the player has the "Incognito" perk, don't show the bountyDisplay
@@ -79,6 +78,10 @@ public class ProfileManager {
                 // String displayName = player.getDisplayName();
 
                 // NametagEdit.getInstance().getManager().setNametag("test", String.valueOf(Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getColor()), CC.translate(bountyDisplay));
+
+                if (Main.getInstance().staffManager.isVanished(player)) {
+                    bountyDisplay = bountyDisplay + " &7[V&7]";
+                }
 
                 NametagEdit.getApi().setNametag(player, String.valueOf(Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getColor()), bountyDisplay);
             }
@@ -304,7 +307,7 @@ public class ProfileManager {
         KING("King", "&7[&6&lKING&7] &6", ChatColor.GOLD, 2, "kitpvp.kit.king"),
         LORD("Lord", "&7[&d&lLORD&7] &d", ChatColor.LIGHT_PURPLE, 3, "kitpvp.kit.lord"),
         LEGEND("Legend", "&7[&c&lLEGEND&7] &c", ChatColor.RED, 4, "kitpvp.kit.legend"),
-        MOD("Mod", "&7[&3Mod&7] &4", ChatColor.DARK_AQUA, 5, "kitpvp.staff"),
+        MOD("Mod", "&7[&3Mod&7] &3", ChatColor.DARK_AQUA, 5, "kitpvp.staff"),
         ADMIN("Admin", "&7[&4Admin&7] &4", ChatColor.DARK_RED, 6, "kitpvp.admin"),
         OWNER("Owner", "&7[&4Owner&7] &4", ChatColor.DARK_RED, 7, "*");
 
