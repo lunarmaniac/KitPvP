@@ -31,7 +31,7 @@ public class StaffManager {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         initializeModItems(player);
-
+        Main.getInstance().combatManager.setCombatSet(player, false);
         //TODO: for some super weird reason this method just isnt working here. so using isvanished instead. gay i know.
         //updatePlayerVisibility(player, false);
 
