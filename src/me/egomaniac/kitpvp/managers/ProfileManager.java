@@ -80,7 +80,7 @@ public class ProfileManager {
                 // NametagEdit.getInstance().getManager().setNametag("test", String.valueOf(Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getColor()), CC.translate(bountyDisplay));
 
                 if (Main.getInstance().staffManager.isVanished(player)) {
-                    bountyDisplay = bountyDisplay + " &7[V&7]";
+                    bountyDisplay = " &7[V&7]"; // if the player is in staff mode we dont want to display the bounty, only the V
                 }
 
                 NametagEdit.getApi().setNametag(player, String.valueOf(Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getColor()), bountyDisplay);
