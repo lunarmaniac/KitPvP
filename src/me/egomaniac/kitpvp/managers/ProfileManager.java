@@ -304,9 +304,9 @@ public class ProfileManager {
 
     public enum Rank {
         DEFAULT("Default", "&a", ChatColor.GREEN, 1, "kitpvp.player"),
-        KING("King", "&7[&6&lKING&7] &6", ChatColor.GOLD, 2, "kitpvp.kit.king"),
-        LORD("Lord", "&7[&d&lLORD&7] &d", ChatColor.LIGHT_PURPLE, 3, "kitpvp.kit.lord"),
-        LEGEND("Legend", "&7[&c&lLEGEND&7] &c", ChatColor.RED, 4, "kitpvp.kit.legend"),
+        KING("King", "&7[&6&lKING&7] &6", ChatColor.GOLD, 2, "kitpvp.king"),
+        LORD("Lord", "&7[&d&lLORD&7] &d", ChatColor.LIGHT_PURPLE, 3, "kitpvp.lord"),
+        LEGEND("Legend", "&7[&c&lLEGEND&7] &c", ChatColor.RED, 4, "kitpvp.legend"),
         MOD("Mod", "&7[&3Mod&7] &3", ChatColor.DARK_AQUA, 5, "kitpvp.staff"),
         ADMIN("Admin", "&7[&4Admin&7] &4", ChatColor.DARK_RED, 6, "kitpvp.admin"),
         DEVELOPER("Developer", "&7[&bDeveloper&7] &b", ChatColor.AQUA, 7, "*"),
