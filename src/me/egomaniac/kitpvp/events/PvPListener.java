@@ -70,13 +70,18 @@ public class PvPListener implements Listener {
                 attacker.sendMessage(CC.translate(Perk.getTierColorByTier(distortion.getTier()) + "&lDISTORTION!"));
                 attacker.sendMessage(CC.translate("You have inflicted blindness on " + victim.getDisplayName() + "!"));
                 attacker.sendMessage("");
+
+                victim.sendMessage("");
+                victim.sendMessage(CC.translate(Perk.getTierColorByTier(distortion.getTier()) + "&lDISTORTION!"));
+                victim.sendMessage(CC.translate("You have been inflicted with blindness by " + attacker.getDisplayName() + "!"));
+                victim.sendMessage("");
             }
 
             SecondChance secondChance = new SecondChance();
             boolean hasSecondChancePerk = Main.getInstance().playerPerksManager.hasPerk(victim, secondChance);
 
             // If the attacker has the "Second Chance" perk and dies, give them 5 extra hearts
-            if (hasSecondChancePerk&& Math.random() <= 0.05) {
+            if (hasSecondChancePerk&& Math.random() <= 0.30) {
                 if (victim.getHealth() - event.getFinalDamage() <= 0) {
                     event.setCancelled(true);
                     victim.setHealth(10);
@@ -84,6 +89,8 @@ public class PvPListener implements Listener {
                     victim.sendMessage(CC.translate(Perk.getTierColorByTier(secondChance.getTier()) + "&lSECOND CHANCE!"));
                     victim.sendMessage(CC.translate("&7You have been granted an extra 5 hearts!"));
                     victim.sendMessage("");
+
+                    Main.getInstance().playerPerksManager.removePerk(victim.getPlayer(), secondChance);
                 }
             }
 
