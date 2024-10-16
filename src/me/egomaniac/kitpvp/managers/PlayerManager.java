@@ -14,7 +14,7 @@ public class PlayerManager {
 
     public void sendStaffChatMessage(Player player, String message) {
         Main.getInstance().getServer().getOnlinePlayers()
-                .stream().filter(player1 -> player1.hasPermission("kitpvp.admin"))
+                .stream().filter(player1 -> player1.hasPermission("kitpvp.staff"))
                 .forEach(p -> p.sendMessage(CC.translate("&7[&bSC&7] " + Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getPrefix()) + player.getDisplayName() + ": &f" + message));
     }
 
