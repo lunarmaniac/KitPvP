@@ -51,38 +51,48 @@ public class ProfileCommand {
         }
 
         String playerName = args.getArgs()[0];
-        OfflinePlayer offlinePlayer = Bukkit.getPlayerExact(playerName);
+        Player onlinePlayer = Bukkit.getPlayerExact(playerName);
 
-        if (!offlinePlayer.hasPlayedBefore()) {
-            sender.sendMessage(CC.RED + "This player has never logged on.");
-            return;
-        }
+        if (onlinePlayer != null) {
+            String rankName = args.getArgs()[1];
+            Rank rank = null;
 
-        String rankName = args.getArgs()[1];
-        Rank rank = null;
+            try {
+                rank = Rank.valueOf(rankName.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                sender.sendMessage(CC.RED + "This rank doesn't exist.");
+                return;
+            }
 
-        try {
-            rank = Rank.valueOf(rankName.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            sender.sendMessage(CC.RED + "This rank doesn't exist.");
-            return;
-        }
+            Main.getInstance().profileManager.setPlayerRank(onlinePlayer.getUniqueId(), rank);
+            Main.getInstance().playerManager.updatePermissions(onlinePlayer);
+            Main.getInstance().profileManager.updateNameTag(onlinePlayer);
 
-        Main.getInstance().profileManager.setPlayerRank(offlinePlayer.getUniqueId(), rank);
+            onlinePlayer.sendMessage(CC.GREEN + "Your rank has been updated to " + rank.getDisplayName());
+            sender.sendMessage(CC.GREEN + "Successfully set the rank of " + onlinePlayer.getName() + " to " + rank.getDisplayName());
+            DiscordWebhook.send("Rank Update", onlinePlayer.getDisplayName() + " has been granted " + rank.getDisplayName() + " by " + sender.getName(), Color.ORANGE, DiscordWebhook.Type.PROFILE);
 
-        if (offlinePlayer.isOnline()) {
-            Player target = offlinePlayer.getPlayer();
-            Main.getInstance().playerManager.updatePermissions(target);
-
-            Main.getInstance().profileManager.updateNameTag(target);
-
-            target.sendMessage(CC.GREEN + "Your rank has been updated to " + rank.getDisplayName());
-            sender.sendMessage(CC.GREEN + "Successfully set the rank of " + target.getName() + " to " + rank.getDisplayName());
-            DiscordWebhook.send("Rank Update", target.getDisplayName() + " has been granted " + rank.getDisplayName() + " by " + sender.getName(), Color.ORANGE, DiscordWebhook.Type.PROFILE);
         } else {
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
+
+            if (!offlinePlayer.hasPlayedBefore()) {
+                sender.sendMessage(CC.RED + "This player has never logged on.");
+                return;
+            }
+
+            String rankName = args.getArgs()[1];
+            Rank rank = null;
+
+            try {
+                rank = Rank.valueOf(rankName.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                sender.sendMessage(CC.RED + "This rank doesn't exist.");
+                return;
+            }
+
+            Main.getInstance().profileManager.setPlayerRank(offlinePlayer.getUniqueId(), rank);
             sender.sendMessage(CC.GREEN + "Successfully set the rank of " + offlinePlayer.getName() + " to " + rank.getDisplayName());
             DiscordWebhook.send("Rank Update", offlinePlayer.getName() + " has been granted " + rank.getDisplayName() + " by " + sender.getName(), Color.ORANGE, DiscordWebhook.Type.PROFILE);
-
         }
     }
 
