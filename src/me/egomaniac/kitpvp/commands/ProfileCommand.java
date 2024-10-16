@@ -30,6 +30,7 @@ public class ProfileCommand {
             CC.translate("&7&m-------------------------------------------"),
             CC.translate("&6/profile setrank <player> <rank> &7┃ &fSet a players rank"),
             CC.translate("&6/profile setcredits <player> <amount> &7┃ &fSet a players credits"),
+            CC.translate("&6/profile addcredits <player> <amount> &7┃ &fAdd to players credits"),
             CC.translate("&6/profile show <player> &7\u2503 &fView a players profile"),
             CC.translate("&7&m-------------------------------------------")
     };
@@ -138,6 +139,51 @@ public class ProfileCommand {
         } else {
             DiscordWebhook.send("Credit Update", offlinePlayer.getName() + "'s credits have been updated to " + amount + " by " + sender.getName(), Color.ORANGE, DiscordWebhook.Type.PROFILE);
             sender.sendMessage(CC.GREEN + "Successfully set " + offlinePlayer.getName() + "'s credits to " + amount);
+        }
+    }
+
+    @Command(name = "profile.addcredits", permission = "kitpvp.admin")
+    public void addCredits(CommandArgs args) {
+        CommandSender sender = args.getSender();
+
+        if (args.getArgs().length != 2) {
+            sender.sendMessage(CC.RED + "Usage: /addcredits <player> <amount>");
+            return;
+        }
+
+        String playerName = args.getArgs()[0];
+        OfflinePlayer offlinePlayer = Bukkit.getPlayerExact(playerName);
+
+        if (offlinePlayer == null || !offlinePlayer.hasPlayedBefore()) {
+            sender.sendMessage(CC.RED + "This player has never logged on.");
+            return;
+        }
+
+        int amount;
+        try {
+            amount = Integer.parseInt(args.getArgs()[1]);
+        } catch (NumberFormatException e) {
+            sender.sendMessage(CC.RED + "Please provide a valid number for the amount.");
+            return;
+        }
+
+        if (amount <= 0) {
+            sender.sendMessage(CC.RED + "Please provide a positive number to add.");
+            return;
+        }
+
+        int currentCredits = Main.getInstance().economyManager.getCredits(offlinePlayer.getUniqueId());
+        int newCredits = currentCredits + amount;
+        Main.getInstance().economyManager.setCredits(offlinePlayer.getUniqueId(), newCredits);
+
+        if (offlinePlayer.isOnline()) {
+            Player target = offlinePlayer.getPlayer();
+            sender.sendMessage(CC.GREEN + "Successfully added " + amount + " credits to " + target.getName() + ". Total: " + newCredits);
+            target.sendMessage(CC.GREEN + "You have received " + amount + " additional credits. \nYour total is now " + newCredits);
+            DiscordWebhook.send("Credit Update", target.getDisplayName() + " has been credited with " + amount + " credits by " + sender.getName() + ". New total: " + newCredits, Color.ORANGE, DiscordWebhook.Type.PROFILE);
+        } else {
+            DiscordWebhook.send("Credit Update", offlinePlayer.getName() + " has been credited with " + amount + " credits by " + sender.getName() + ". New total: " + newCredits, Color.ORANGE, DiscordWebhook.Type.PROFILE);
+            sender.sendMessage(CC.GREEN + "Successfully added " + amount + " credits to " + offlinePlayer.getName() + ". New total: " + newCredits);
         }
     }
 
