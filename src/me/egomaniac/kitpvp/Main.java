@@ -42,6 +42,7 @@ public class Main extends JavaPlugin {
     public EconomyManager economyManager;
     public PlayerManager playerManager;
     public PlayerPerksManager playerPerksManager;
+    public ItemManager itemManager;
 
     public static InventoryHandler getInventoryHandler() {
         return Main.inventoryHandler;
@@ -111,6 +112,7 @@ public class Main extends JavaPlugin {
         this.teleportManager = new TeleportManager();
         this.playerPerksManager = new PlayerPerksManager();
         this.staffManager = new StaffManager();
+        this.itemManager = new ItemManager();
     }
 
     public void createConfig() {
