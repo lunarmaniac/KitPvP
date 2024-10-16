@@ -216,13 +216,14 @@ public class KitCommand {
                 }
                 break;
 
-            // Add more cases for other kits
             case "king":
                 if (!executor.hasPermission("kitpvp.admin") && hasCooldown(targetPlayer, "king", kitKingCooldown)) {
                     targetPlayer.sendMessage(CC.translate("&cYou need to wait " + getRemainingCooldown(targetPlayer, "king", kitKingCooldown) + " seconds before using this kit again"));
+                } else if (!executor.hasPermission("kitpvp.king")) {
+                    targetPlayer.sendMessage(CC.translate("&cYou do not have permission to use this kit."));
                 } else {
                     if (!executor.hasPermission("kitpvp.admin")) {
-                        setCooldown(targetPlayer, "another_kit_name", kitKingCooldown);
+                        setCooldown(targetPlayer, "king", kitKingCooldown);
                     }
                     giveKitKing(targetPlayer);
                 }
@@ -231,6 +232,8 @@ public class KitCommand {
             case "lord":
                 if (!executor.hasPermission("kitpvp.admin") && hasCooldown(targetPlayer, "lord", kitLordCooldown)) {
                     targetPlayer.sendMessage(CC.translate("&cYou need to wait " + getRemainingCooldown(targetPlayer, "lord", kitLordCooldown) + " seconds before using this kit again"));
+                } else if (!executor.hasPermission("kitpvp.lord")) {
+                    targetPlayer.sendMessage(CC.translate("&cYou do not have permission to use this kit."));
                 } else {
                     if (!executor.hasPermission("kitpvp.admin")) {
                         setCooldown(targetPlayer, "lord", kitLordCooldown);
@@ -242,6 +245,8 @@ public class KitCommand {
             case "legend":
                 if (!executor.hasPermission("kitpvp.admin") && hasCooldown(targetPlayer, "legend", kitLegendCooldown)) {
                     targetPlayer.sendMessage(CC.translate("&cYou need to wait " + getRemainingCooldown(targetPlayer, "legend", kitLegendCooldown) + " seconds before using this kit again"));
+                } else if (!executor.hasPermission("kitpvp.legend")) {
+                    targetPlayer.sendMessage(CC.translate("&cYou do not have permission to use this kit."));
                 } else {
                     if (!executor.hasPermission("kitpvp.admin")) {
                         setCooldown(targetPlayer, "legend", kitLegendCooldown);
