@@ -195,7 +195,7 @@ public class PvPListener implements Listener {
 
             Main.getInstance().profileManager.addPlayerCredits(killer.getUniqueId(), 100);
             player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 2.0f, 1.0f);
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate give " + killer.getDisplayName() + " kill 1");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + killer.getDisplayName() + " kill 1");
             killer.sendMessage(CC.translate("&aYou have been rewarded &e100 credits &afor killing &e" + player.getDisplayName()));
             player.sendMessage(CC.translate("&cYou have been killed by &e" + killer.getDisplayName()));
 
