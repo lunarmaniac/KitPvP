@@ -13,7 +13,7 @@ public class EnderChestCommand {
         Main.getInstance().framework.registerCommands(this);
     }
 
-    @Command(name = "ec", permission = "kitpvp.admin", usage = "&cUsage: /enderchest <player>", inGameOnly = true)
+    @Command(name = "ec", aliases = {"enderchest"}, permission = "kitpvp.admin", usage = "&cUsage: /ec <player>", inGameOnly = true)
     public void execute(CommandArgs args) {
         Player target;
 
