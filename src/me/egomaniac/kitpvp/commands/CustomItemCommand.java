@@ -24,6 +24,7 @@ public class CustomItemCommand {
                     + "&6/customitem creditnote500 &7┃ &fCredit Note (500) item  \n"
                     + "&6/customitem creditnote1000 &7┃ &fCredit Note (1000) item \n"
                     + "&6/customitem kingrank &7┃ &fKing Rank item \n"
+                    + "&6/customitem repairtoken &7┃ &fRepair Token item \n"
                     + "&7&m------------------------------------------- \n"));
         } else if (args.length() == 1) {
             String choice = args.getArgs(0).toLowerCase();
@@ -38,7 +39,10 @@ public class CustomItemCommand {
                     giveCustomItem(player, Material.PAPER, "&6Credit Note &7(1000)", "&7Right click to redeem 1000 credits", "profile addcredits %player% 1000");
                     break;
                 case "kingrank":
-                    giveCustomItem(player, Material.NETHER_STAR, "&6King &fRank", "&7Right click to activate King Rank", "profile setrank %player% King ");
+                    giveCustomItem(player, Material.NETHER_STAR, "&6King &fRank", "&7Right click to activate King Rank", "profile setrank %player% King");
+                    break;
+                case "repairtoken":
+                    giveCustomItem(player, Material.FIREWORK_CHARGE, "&bRepair Token", "&7Repair all armour & tools in inventory", "repair %player%");
                     break;
                 default:
                     player.sendMessage(CC.translate("&cInvalid item choice. Use /customitem to see available options."));
