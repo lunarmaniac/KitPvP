@@ -43,4 +43,9 @@ public class Cuboid {
     public boolean isIn(final Player player) {
         return this.contains(player.getLocation());
     }
+
+    public boolean landedIn(Location loc) {
+        return this.contains(loc);
+    }
+
 }
