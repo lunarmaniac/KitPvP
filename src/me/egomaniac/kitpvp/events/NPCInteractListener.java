@@ -21,14 +21,14 @@ public class NPCInteractListener implements Listener {
         NPC npc = event.getNPC();
         Player player = event.getClicker();
 
-        if (npc.getName().contains("Merchant")) {
+        if (npc.getEntity().hasMetadata("merchant")) {
             shopUI.open(player);
-        } else if (npc.getName().contains("Perks")) {
+        } else if (npc.getEntity().hasMetadata("perks")) {
             perksUI.open(player);
-        } else if (npc.getName().contains("Tags")) {
+        } else if (npc.getEntity().hasMetadata("chattags")) {
             TagUI tags = new TagUI();
             tags.open(player);
-        } else if (npc.getName().contains("Basics")) {
+        } else if (npc.getEntity().hasMetadata("basics")) {
             HowToPlayUI help = new HowToPlayUI();
             help.open(player);
         }
