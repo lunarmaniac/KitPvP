@@ -372,6 +372,7 @@ public class ProfileManager {
         F("&6&l#F ", "F"),
         GOD("&6&l#GOD ", "GOD"),
         DAB("&4&l<o/ ", "DAB"),
+        JUSTEAT("&6&l#JUSTEAT ", "justeat"),
         EDATER("&d&l#EDATER ", "EDATER");
 
         private final String prefix;
