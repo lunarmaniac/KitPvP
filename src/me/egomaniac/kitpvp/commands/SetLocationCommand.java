@@ -33,6 +33,9 @@ public class SetLocationCommand {
             case "sumo":
                 handleSumoLocation(player, locationType);
                 break;
+            case "afk":
+                handleAfkLocation(player, locationType);
+                break;
             default:
                 player.sendMessage(CC.translate(cmd.getCommand().getUsage()));
                 break;
@@ -58,6 +61,24 @@ public class SetLocationCommand {
                 break;
             default:
                 player.sendMessage(CC.translate("&cInvalid lobby location type. Available types: spawn, max, min"));
+                break;
+        }
+    }
+
+    private void handleAfkLocation(Player player, String locationType) {
+        switch (locationType) {
+            case "max":
+                Main.getInstance().spawnManager.setSafezoneMax(CustomLocation.fromBukkitLocation(player.getLocation()));
+                saveLocation(player, "SERVER.AFK.SAFEZONE-MAX");
+                player.sendMessage(CC.translate("&aSuccessfully saved AFK safezone max location."));
+                break;
+            case "min":
+                Main.getInstance().spawnManager.setSafezoneMin(CustomLocation.fromBukkitLocation(player.getLocation()));
+                saveLocation(player, "SERVER.AFK.SAFEZONE-MIN");
+                player.sendMessage(CC.translate("&aSuccessfully saved AFK safezone min location."));
+                break;
+            default:
+                player.sendMessage(CC.translate("&cInvalid lobby location type. Available types: max, min"));
                 break;
         }
     }
