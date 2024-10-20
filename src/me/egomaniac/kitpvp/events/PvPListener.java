@@ -1,6 +1,7 @@
 package me.egomaniac.kitpvp.events;
 
 import me.egomaniac.kitpvp.Main;
+import me.egomaniac.kitpvp.managers.CooldownManager;
 import me.egomaniac.kitpvp.perks.Perk;
 import me.egomaniac.kitpvp.perks.perks.Distortion;
 import me.egomaniac.kitpvp.perks.perks.QuickFix;
@@ -16,10 +17,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -109,20 +112,46 @@ public class PvPListener implements Listener {
 
     @EventHandler
     public void onPearl(PlayerInteractEvent event) {
-        if (event.getItem() != null && event.getItem().getType() == Material.ENDER_PEARL) {
+        // Check if the player right-clicks with the Ender Pearl
+        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getItem() != null && event.getItem().getType() == Material.ENDER_PEARL) {
+                Player player = event.getPlayer();
+                if (Main.getInstance().cooldownManager.isOnCooldown(player, CooldownManager.CooldownType.ENDERPEARL)) {
+                    event.setCancelled(true);
+                    int cooldownTime = Main.getInstance().cooldownManager.getCooldownTime(player, CooldownManager.CooldownType.ENDERPEARL);
+                    player.sendMessage(CC.RED + "You're on enderpearl cooldown for another " + cooldownTime + "s.");
+                } else {
+                    Bukkit.getPluginManager().callEvent(new PearlCooldown(player));
+
+                    int cooldownTime = 20;
+                    Main.getInstance().cooldownManager.setCooldownTime(player, CooldownManager.CooldownType.ENDERPEARL, cooldownTime);
+                    Main.getInstance().cooldownManager.setCooldown(player, CooldownManager.CooldownType.ENDERPEARL, true);
+
+                    try {
+                        Main.getInstance().cooldownManager.getStartCooldownTimer(player, CooldownManager.CooldownType.ENDERPEARL).runTaskTimer(Main.getInstance(), 0L, 20L);
+                    } catch (IllegalStateException ignored) {
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onNotchAppleConsume(PlayerItemConsumeEvent event) {
+        ItemStack item = event.getItem();
+
+        if (item != null && item.getType() == Material.GOLDEN_APPLE && item.getDurability() == 1) {
             Player player = event.getPlayer();
-            if (Main.getInstance().enderpearlManager.isCooldown(player)) {
+            if (Main.getInstance().cooldownManager.isOnCooldown(player, CooldownManager.CooldownType.NOTCH_APPLE)) {
                 event.setCancelled(true);
-                int cooldownTime = Main.getInstance().enderpearlManager.getCooldownTime(player);
-                player.sendMessage(CC.RED + "You're on enderpearl cooldown for another " + cooldownTime + "s.");
+                int cooldownTime = Main.getInstance().cooldownManager.getCooldownTime(player, CooldownManager.CooldownType.NOTCH_APPLE);
+                player.sendMessage(CC.RED + "You're on god apple cooldown for another " + cooldownTime + "s.");
             } else {
-                Bukkit.getPluginManager().callEvent(new PearlCooldown(event.getPlayer()));
-                Main.getInstance().enderpearlManager.setCooldownTime(event.getPlayer(), 20); // Replace 20 with the cooldown time in ticks (1 second = 20 ticks)
-                Main.getInstance().enderpearlManager.setEnderpearlSet(event.getPlayer(), true);
+                Main.getInstance().cooldownManager.setCooldownTime(player, CooldownManager.CooldownType.NOTCH_APPLE, 120);
+                Main.getInstance().cooldownManager.setCooldown(player, CooldownManager.CooldownType.NOTCH_APPLE, true);
 
                 try {
-                    Main.getInstance().enderpearlManager.getStartCooldownTimer().runTaskTimer(Main.getInstance(), 0L, 20L);
-
+                    Main.getInstance().cooldownManager.getStartCooldownTimer(player, CooldownManager.CooldownType.NOTCH_APPLE).runTaskTimer(Main.getInstance(), 0L, 20L);
                 } catch (IllegalStateException ignored) {
                 }
             }
@@ -225,7 +254,7 @@ public class PvPListener implements Listener {
             attacker.addPotionEffect(speedEffect);
 
             Bukkit.broadcastMessage(CC.translate("&e" + attacker.getDisplayName() + " &ahas reached a killstreak of " + killstreak + "!"));
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate give " + attacker.getDisplayName() + " epic 1");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + attacker.getDisplayName() + " epic 1");
             attacker.sendMessage(CC.translate("&aYou've recieved a &eSpeed Boost &afor reaching a killstreak of " + killstreak + "!"));
 
         } else if (killstreak == 10) {
@@ -234,7 +263,7 @@ public class PvPListener implements Listener {
             attacker.getInventory().addItem(godApple);
 
             Bukkit.broadcastMessage(CC.translate("&e" + attacker.getDisplayName() + " &ahas reached a killstreak of " + killstreak + "!"));
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate give " + attacker.getDisplayName() + " epic 5");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + attacker.getDisplayName() + " epic 5");
             attacker.sendMessage(CC.translate("&aYou've recieved a &eGod Apple &afor reaching a killstreak of " + killstreak + "!"));
 
 
@@ -243,9 +272,21 @@ public class PvPListener implements Listener {
             Main.getInstance().profileManager.addPlayerCredits(attacker.getUniqueId(), 1000);
 
             Bukkit.broadcastMessage(CC.translate("&e" + attacker.getDisplayName() + " &ahas reached a killstreak of " + killstreak + "!"));
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate give " + attacker.getDisplayName() + " mega 1");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + attacker.getDisplayName() + " mega 1");
             attacker.sendMessage(CC.translate("&aYou've recieved the &e1000 Credits &afor reaching a killstreak of " + killstreak + "!"));
+        }
+        else if (killstreak == 20) {
+            PotionEffect regenEffect = new PotionEffect(PotionEffectType.REGENERATION, 20 * 30, 5);
+            attacker.addPotionEffect(regenEffect);
+            attacker.sendMessage("");
+            attacker.sendMessage(CC.translate("&4&lKILLSTREAK REGENERATION!"));
+            attacker.sendMessage(CC.translate("You now have regeneration 5 for 30 seconds!"));
+            attacker.sendMessage("");
+            Main.getInstance().profileManager.addPlayerCredits(attacker.getUniqueId(), 5000);
 
+            Bukkit.broadcastMessage(CC.translate("&e" + attacker.getDisplayName() + " &ahas reached a killstreak of " + killstreak + "!"));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + attacker.getDisplayName() + " mega 5");
+            attacker.sendMessage(CC.translate("&aYou've recieved the &e5000 Credits &afor reaching a killstreak of " + killstreak + "!"));
         }
     }
 
