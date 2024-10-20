@@ -106,12 +106,24 @@ public class ServerListener implements Listener {
         }
     }
 
-    @EventHandler()
+    @EventHandler
     public void onLoseFood(FoodLevelChangeEvent event) {
-        if (Main.getInstance().spawnManager.getCuboid().isIn((Player) event.getEntity())) {
-            event.setCancelled(true);
+        if (!(event.getEntity() instanceof Player)) {
+            return;
         }
-        if (Main.getInstance().sumoManager.isParticipant(((Player) event.getEntity()).getPlayer())) {
+
+        Player player = (Player) event.getEntity();
+
+        int currentFoodLevel = player.getFoodLevel();
+        int newFoodLevel = event.getFoodLevel();
+
+        if (Main.getInstance().spawnManager.getCuboid().isIn(player)) {
+            if (newFoodLevel < currentFoodLevel) {
+                event.setCancelled(true);
+            }
+        }
+
+        if (Main.getInstance().sumoManager.isParticipant(player)) {
             event.setCancelled(true);
         }
     }
