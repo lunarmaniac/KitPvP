@@ -33,10 +33,11 @@ public class Main extends JavaPlugin {
 
     public StaffManager staffManager;
     public SpawnManager spawnManager;
+    public AfkManager afkManager;
     public SumoManager sumoManager;
     public TeleportManager teleportManager;
     public CombatManager combatManager;
-    public EnderpearlManager enderpearlManager;
+    public CooldownManager cooldownManager;
 
     public ProfileManager profileManager;
     public EconomyManager economyManager;
@@ -104,8 +105,9 @@ public class Main extends JavaPlugin {
     public void loadManagers() {
         this.spawnManager = new SpawnManager();
         this.sumoManager = new SumoManager();
+        this.afkManager = new AfkManager();
         this.combatManager = new CombatManager();
-        this.enderpearlManager = new EnderpearlManager();
+        this.cooldownManager = new CooldownManager();
         this.profileManager = new ProfileManager();
         this.playerManager = new PlayerManager();
         this.economyManager = new EconomyManager();
