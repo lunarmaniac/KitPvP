@@ -1,10 +1,12 @@
 package me.egomaniac.kitpvp.tablist;
 
 import me.egomaniac.kitpvp.Main;
+import me.egomaniac.kitpvp.managers.AfkManager;
 import me.egomaniac.kitpvp.tablist.impl.adapter.TabAdapter;
 import me.egomaniac.kitpvp.tablist.impl.entry.TabEntry;
 import me.egomaniac.kitpvp.tablist.impl.skin.Skin;
 import me.egomaniac.kitpvp.utils.CC;
+import me.egomaniac.kitpvp.utils.creditConversionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -30,7 +32,7 @@ public class TablistProvider implements TabAdapter {
 
 
         // First column
-        lines.add(new TabEntry(0, 0, CC.translate("     &b&lSENATIC"), 0, null));
+        lines.add(new TabEntry(0, 0, CC.translate("       &b&lSENATIC"), 0, null));
         lines.add(new TabEntry(0, 3, CC.translate("&bPlayers"), 0, null));
         lines.add(new TabEntry(0, 4, CC.WHITE + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers(), 0, null));
 
@@ -48,9 +50,10 @@ public class TablistProvider implements TabAdapter {
         int playersAdded = 0;
 
         for (Player onlinePlayer : sortedPlayers) {
-            Skin playerSkin = Skin.getPlayer(onlinePlayer);
             int ping = ((CraftPlayer) player).getHandle().ping;
-            lines.add(new TabEntry(rowIndex, lineIndex, Main.getInstance().profileManager.getPlayerRank(onlinePlayer.getUniqueId()).getColor() + onlinePlayer.getDisplayName(), ping, Skin.getPlayer(player)));
+            AfkManager afkManager = Main.getInstance().afkManager;
+            String afkPrefix = afkManager.isPlayerAfk(onlinePlayer.getUniqueId()) ? "⧗ " : "";
+            lines.add(new TabEntry(rowIndex, lineIndex, CC.translate("&e" + afkPrefix) + Main.getInstance().profileManager.getPlayerRank(onlinePlayer.getUniqueId()).getColor() + onlinePlayer.getDisplayName(), ping, Skin.getPlayer(player)));
 
             lineIndex++;
             playersAdded++;
@@ -63,14 +66,26 @@ public class TablistProvider implements TabAdapter {
             }
         }
 
-        lines.add(new TabEntry(1, 0, CC.translate("       &b&lSEASON I"), 0, null));
-        lines.add(new TabEntry(1, 1, CC.GRAY + "         (" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + ")", 0, null));
+        lines.add(new TabEntry(1, 0, CC.translate("         &b&lSEASON I"), 0, null));
+        lines.add(new TabEntry(1, 1, CC.GRAY + "          (" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + ")", 0, null));
         lines.add(new TabEntry(1, 3, CC.translate("&bYour credits"), 0, null));
-        lines.add(new TabEntry(1, 4, CC.WHITE + Main.getInstance().profileManager.getPlayerCredits(player.getUniqueId()), 0, null));
+        String creditsDisplay = creditConversionUtil.formatNumber(Main.getInstance().profileManager.getPlayerCredits(player.getUniqueId()));
+        lines.add(new TabEntry(1, 4, CC.WHITE + creditsDisplay, 0, null));
 
-        lines.add(new TabEntry(2, 0, CC.translate("     &b&lSENATIC"), 0, null));
+        lines.add(new TabEntry(2, 0, CC.translate("      &b&lTHE REVIVAL"), 0, null));
         lines.add(new TabEntry(2, 3, CC.translate("&bYour rank"), 0, null));
         lines.add(new TabEntry(2, 4, Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getColor() + Main.getInstance().profileManager.getPlayerRank(player.getUniqueId()).getDisplayName(), 0, null));
+
+        lines.add(new TabEntry(3, 0, CC.translate("       &b&lSENATIC"), 0, null));
+        lines.add(new TabEntry(3, 3, CC.translate("&bLeaderboards"), 0, null));
+        lines.add(new TabEntry(3, 7, CC.translate("&bjack is cute."), 0, null));
+
+
+        lines.add(new TabEntry(0, 19, CC.translate("&7www.senaticpvp.net"), 0, null));
+        lines.add(new TabEntry(1, 19, CC.translate("&7www.senaticpvp.net"), 0, null));
+        lines.add(new TabEntry(2, 19, CC.translate("&7www.senaticpvp.net"), 0, null));
+        lines.add(new TabEntry(3, 19, CC.translate("&7www.senaticpvp.net"), 0, null));
         return lines;
+
     }
 }
